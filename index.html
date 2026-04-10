@@ -231,10 +231,8 @@
 
         waitFb(async () => {
             const data = await window._fb.getTeam(team);
-            const saved = data ? data.progress : null;
 
-            // ── Case 1: Already finished the whole hunt ──
-            if (saved === "completed") {
+            if (data && data.progress === "completed") {
                 msg.innerHTML = `<span class='trophy'>🏆</span>
                     <div class='success' style='font-size:28px'>TREASURE UNLOCKED! Team ${team} Won!</div>
                     <div class='hint'><div class='hint-label'>🎉 Already Completed!</div>
@@ -242,43 +240,17 @@
                 launchConfetti(); return;
             }
 
-            // ── Case 2: Not started yet ──
-            if (!saved) {
-                // On start QR → show puzzle. On any location QR → ask them to start first.
-                if (isStart) {
-                    const puzzleBox    = document.getElementById("puzzleBox");
-                    const questionText = document.getElementById("questionText");
-                    questionText.textContent = curPuzz.question;
-                    puzzleBox.style.display  = "block";
-                    msg.innerHTML = "<div class='success' style='font-size:15px;margin-bottom:4px'>✔ Team verified! Now solve the puzzle below.</div>";
-                } else {
-                    msg.innerHTML = "<div class='error'>⚠️ You haven't started yet!<br>Scan the <b>Starting QR</b> first.</div>";
-                }
+            if (data && data.progress && data.lasthint) {
+                msg.innerHTML = `<div class='success' style='font-size:15px;margin-bottom:4px'>✔ Team verified! Your current hint:</div>
+                    <div class='hint'><div class='hint-label'>🗺️ Go Here</div>${data.lasthint}</div>`;
                 return;
             }
 
-            // ── Case 3: Team has started — check if this QR is their correct next location ──
-            if (isStart) {
-                // Rescanning start QR after already started — show their current hint
-                const lh = data.lasthint || firstHint;
-                msg.innerHTML = `<div class='success' style='font-size:15px;margin-bottom:4px'>✔ Already started! Your current hint:</div>
-                    <div class='hint'><div class='hint-label'>🗺️ Go Here</div>${lh}</div>`;
-                return;
-            }
-
-            if (saved === locKey) {
-                // ✅ CORRECT location QR — show puzzle to solve
-                const puzzleBox    = document.getElementById("puzzleBox");
-                const questionText = document.getElementById("questionText");
-                questionText.textContent = curPuzz.question;
-                puzzleBox.style.display  = "block";
-                msg.innerHTML = "<div class='success' style='font-size:15px;margin-bottom:4px'>✔ Team verified! Now solve the puzzle below.</div>";
-            } else {
-                // ❌ WRONG location QR — show last hint, no puzzle
-                const lh = data.lasthint || firstHint;
-                msg.innerHTML = `<div class='error'>❌ Wrong Location! You scanned the wrong QR.</div>
-                    <div class='hint'><div class='hint-label'>🗺️ Your Current Hint — Go Here</div>${lh}</div>`;
-            }
+            const puzzleBox    = document.getElementById("puzzleBox");
+            const questionText = document.getElementById("questionText");
+            questionText.textContent = curPuzz.question;
+            puzzleBox.style.display  = "block";
+            msg.innerHTML = "<div class='success' style='font-size:15px;margin-bottom:4px'>✔ Team verified! Now solve the puzzle below.</div>";
         });
     }
 
