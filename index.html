@@ -151,15 +151,8 @@
         }
 
         @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0)
-            }
-
-            50% {
-                transform: translateY(-12px)
-            }
+            0%, 100% { transform: translateY(0) }
+            50% { transform: translateY(-12px) }
         }
 
         .admin-btn {
@@ -207,16 +200,13 @@
         }
 
         @keyframes cf {
-            to {
-                transform: translateY(110vh) rotate(720deg);
-                opacity: 0
-            }
+            to { transform: translateY(110vh) rotate(720deg); opacity: 0 }
         }
 
         /* Step UI */
         .step-label {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.35);
+            color: rgba(255,255,255,0.35);
             text-transform: uppercase;
             letter-spacing: .1em;
             margin-bottom: 18px;
@@ -281,7 +271,7 @@
             L7: "🔥 FINAL LOCATION — Return to base and claim your treasure! 🏆"
         };
 
-        const firstHint = "🟡 Your first location is where hunger dies between lectures. Every student runs here at break time! ";
+        const firstHint = "🟡 Your first location is where hunger dies between lectures. Every student runs here at break time! Head to the CANTEEN! 🍽️";
 
         // ── PAGE SETUP ──
         const loc = (new URLSearchParams(window.location.search).get("loc") || "start").toLowerCase();
@@ -346,16 +336,35 @@
                 msg.innerHTML = "<div class='error'>❌ Wrong Team Number or Secret Code!</div>"; return;
             }
 
-            // ✅ Team verified — now reveal puzzle
+            // ✅ Team verified — lock inputs
+            document.getElementById("team").disabled = true;
+            document.getElementById("code").disabled = true;
+
+            const saved = localStorage.getItem("hunt_" + team);
+            const lastHint = localStorage.getItem("hunt_" + team + "_lasthint");
+
+            // ── Already completed ──
+            if (saved === "completed") {
+                msg.innerHTML = `<span class='trophy'>🏆</span>
+                    <div class='success' style='font-size:28px'>TREASURE UNLOCKED! Team ${team} Won!</div>
+                    <div class='hint'><div class='hint-label'>🎉 Already Completed!</div>
+                    Return to base and show this screen to claim your prize! 🎉</div>`;
+                launchConfetti();
+                return;
+            }
+
+            // ── Already has a hint saved (rescan / refresh) — just show the hint, NO puzzle ──
+            if (saved && lastHint) {
+                msg.innerHTML = `<div class='success' style='font-size:15px;margin-bottom:4px'>✔ Team verified! Your current hint:</div>
+                    <div class='hint'><div class='hint-label'>🗺️ Go Here</div>${lastHint}</div>`;
+                return;
+            }
+
+            // ── Fresh start — no progress yet, show puzzle ──
             const puzzleBox = document.getElementById("puzzleBox");
             const questionText = document.getElementById("questionText");
             questionText.textContent = curPuzz.question;
             puzzleBox.style.display = "block";
-
-            // Lock team inputs so they can't change after verify
-            document.getElementById("team").disabled = true;
-            document.getElementById("code").disabled = true;
-
             msg.innerHTML = "<div class='success' style='font-size:15px;margin-bottom:4px'>✔ Team verified! Now solve the puzzle below.</div>";
         }
 
@@ -375,10 +384,13 @@
                     msg.innerHTML = "<div class='error'>❌ Wrong Answer! Think harder 🤔</div>"; return;
                 }
                 if (saved && saved !== "") {
-                    msg.innerHTML = `<div class='error'>⚠️ Your team already started! Keep going — use the hint you already received.</div>`;
+                    const lastHint = localStorage.getItem("hunt_" + team + "_lasthint");
+                    msg.innerHTML = `<div class='success' style='font-size:15px;margin-bottom:4px'>✔ Already started! Your current hint:</div>
+                        <div class='hint'><div class='hint-label'>🗺️ Go Here</div>${lastHint || firstHint}</div>`;
                     return;
                 }
                 localStorage.setItem("hunt_" + team, ROUTE[0]);
+                localStorage.setItem("hunt_" + team + "_lasthint", firstHint);
                 msg.innerHTML = `<div class='success'>✔ Correct! Hunt Begins!</div>
                     <div class='hint'><div class='hint-label'>🗺️ Your First Location</div>${firstHint}</div>`;
                 launchConfetti(); return;
@@ -409,6 +421,7 @@
             if (!isLast) {
                 const nextLoc = ROUTE[idx + 1];
                 localStorage.setItem("hunt_" + team, nextLoc);
+                localStorage.setItem("hunt_" + team + "_lasthint", locationHints[nextLoc]);
                 msg.innerHTML = `<div class='success'>✔ Level Cleared! (${idx + 1}/${ROUTE.length - 1} done)</div>
                     <div class='hint'><div class='hint-label'>🗺️ Next Location Hint</div>${locationHints[nextLoc]}</div>`;
                 launchConfetti();
@@ -491,6 +504,7 @@
                 const t = i.toString().padStart(2, "0");
                 localStorage.removeItem("hunt_" + t);
                 localStorage.removeItem("hunt_" + t + "_finish");
+                localStorage.removeItem("hunt_" + t + "_lasthint");
             }
             alert("All teams reset!");
             location.reload();
@@ -498,5 +512,4 @@
 
     </script>
 </body>
-
 </html>
