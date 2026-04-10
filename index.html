@@ -14,218 +14,34 @@
             padding: 30px;
             min-height: 100vh;
         }
-
-        h1 {
-            font-size: 34px;
-            color: #facc15;
-            text-shadow: 0 0 15px #facc15;
-            margin-bottom: 6px;
-        }
-
-        .subtitle {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 13px;
-            margin-bottom: 28px;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-        }
-
-        .box {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 700px;
-            margin: auto;
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.15);
-        }
-
-        input {
-            padding: 13px 16px;
-            margin: 8px;
-            width: 85%;
-            border-radius: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.07);
-            color: white;
-            outline: none;
-            transition: border-color .2s;
-        }
-
-        input:focus {
-            border-color: #facc15;
-        }
-
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.35);
-        }
-
-        button {
-            padding: 12px 28px;
-            border-radius: 10px;
-            border: none;
-            background: #facc15;
-            color: #0f172a;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 8px 4px;
-            transition: background .15s, transform .1s;
-        }
-
-        button:hover {
-            background: #fde047;
-            transform: translateY(-1px);
-        }
-
-        button:active {
-            transform: scale(.97);
-        }
-
-        .success {
-            color: #22c55e;
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 16px;
-        }
-
-        .error {
-            color: #ef4444;
-            font-weight: bold;
-            margin-top: 14px;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 10px;
-            padding: 10px 16px;
-            display: inline-block;
-        }
-
-        .hint {
-            font-size: 17px;
-            margin-top: 16px;
-            color: #38bdf8;
-            background: rgba(56, 189, 248, 0.07);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 14px;
-            padding: 18px 22px;
-            line-height: 1.8;
-            text-align: left;
-        }
-
-        .hint-label {
-            font-size: 11px;
-            font-weight: bold;
-            color: #38bdf8;
-            text-transform: uppercase;
-            letter-spacing: .1em;
-            margin-bottom: 8px;
-        }
-
-        .location-badge {
-            display: inline-block;
-            background: rgba(250, 204, 21, 0.1);
-            border: 1px solid rgba(250, 204, 21, 0.3);
-            color: #facc15;
-            padding: 6px 20px;
-            border-radius: 99px;
-            font-size: 12px;
-            font-weight: bold;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        .question-text {
-            font-size: 20px;
-            line-height: 1.75;
-            margin-bottom: 22px;
-            color: #e2e8f0;
-            font-style: italic;
-        }
-
-        .trophy {
-            font-size: 80px;
-            display: block;
-            margin: 10px 0;
-            animation: float 2.5s ease-in-out infinite;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0)
-            }
-
-            50% {
-                transform: translateY(-12px)
-            }
-        }
-
-        .admin-btn {
-            position: fixed;
-            bottom: 12px;
-            right: 12px;
-            opacity: 0.15;
-            font-size: 22px;
-            padding: 6px 10px;
-            background: transparent;
-            color: white;
-        }
-
-        .admin-btn:hover {
-            opacity: 1;
-            background: rgba(255, 255, 255, .08);
-        }
-
-        .admin-box {
-            background: #0f172a;
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-            text-align: left;
-        }
-
-        .admin-box p {
-            padding: 6px 4px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            font-size: 14px;
-        }
-
-        .route-tag {
-            display: inline-block;
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 99px;
-            margin-left: 6px;
-            font-weight: bold;
-        }
-
-        .confetti-wrap {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 999;
-            overflow: hidden
-        }
-
-        .cp {
-            position: absolute;
-            top: -20px;
-            animation: cf linear forwards
-        }
-
-        @keyframes cf {
-            to {
-                transform: translateY(110vh) rotate(720deg);
-                opacity: 0
-            }
-        }
+        h1 { font-size: 34px; color: #facc15; text-shadow: 0 0 15px #facc15; margin-bottom: 6px; }
+        .subtitle { color: rgba(255,255,255,0.4); font-size: 13px; margin-bottom: 28px; letter-spacing: .08em; text-transform: uppercase; }
+        .box { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; max-width: 700px; margin: auto; box-shadow: 0 0 40px rgba(255,215,0,0.15); }
+        input { padding: 13px 16px; margin: 8px; width: 85%; border-radius: 10px; border: 2px solid rgba(255,255,255,0.1); font-size: 16px; background: rgba(255,255,255,0.07); color: white; outline: none; transition: border-color .2s; }
+        input:focus { border-color: #facc15; }
+        input::placeholder { color: rgba(255,255,255,0.35); }
+        button { padding: 12px 28px; border-radius: 10px; border: none; background: #facc15; color: #0f172a; font-weight: bold; font-size: 16px; cursor: pointer; margin: 8px 4px; transition: background .15s, transform .1s; }
+        button:hover { background: #fde047; transform: translateY(-1px); }
+        button:active { transform: scale(.97); }
+        .success { color: #22c55e; font-size: 20px; font-weight: bold; margin-top: 16px; }
+        .error { color: #ef4444; font-weight: bold; margin-top: 14px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; padding: 10px 16px; display: inline-block; }
+        .hint { font-size: 17px; margin-top: 16px; color: #38bdf8; background: rgba(56,189,248,0.07); border: 1px solid rgba(56,189,248,0.2); border-radius: 14px; padding: 18px 22px; line-height: 1.8; text-align: left; }
+        .hint-label { font-size: 11px; font-weight: bold; color: #38bdf8; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px; }
+        .location-badge { display: inline-block; background: rgba(250,204,21,0.1); border: 1px solid rgba(250,204,21,0.3); color: #facc15; padding: 6px 20px; border-radius: 99px; font-size: 12px; font-weight: bold; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 20px; }
+        .question-text { font-size: 20px; line-height: 1.75; margin-bottom: 22px; color: #e2e8f0; font-style: italic; }
+        .trophy { font-size: 80px; display: block; margin: 10px 0; animation: float 2.5s ease-in-out infinite; }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+        .admin-btn { position: fixed; bottom: 12px; right: 12px; opacity: 0.15; font-size: 22px; padding: 6px 10px; background: transparent; color: white; }
+        .admin-btn:hover { opacity: 1; background: rgba(255,255,255,.08); }
+        .admin-box { background: #0f172a; padding: 20px; border-radius: 15px; margin-top: 20px; text-align: left; }
+        .admin-box p { padding: 6px 4px; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 14px; }
+        .confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 999; overflow: hidden }
+        .cp { position: absolute; top: -20px; animation: cf linear forwards }
+        @keyframes cf { to { transform: translateY(110vh) rotate(720deg); opacity: 0 } }
     </style>
 </head>
 
 <body>
-
     <div id="app"></div>
     <div class="confetti-wrap" id="cw"></div>
     <button class="admin-btn" onclick="showAdminLogin()">⚙</button>
@@ -240,21 +56,8 @@
             L4: "General Store", L5: "Office", L6: "Lawn", L7: "Kabristan"
         };
 
-        const ROUTES = {
-            A: ["L1", "L2", "L3", "L4", "L5", "L6", "L7"],
-            B: ["L2", "L4", "L6", "L1", "L3", "L5", "L7"],
-            C: ["L3", "L1", "L5", "L2", "L6", "L4", "L7"],
-            D: ["L4", "L6", "L2", "L5", "L1", "L3", "L7"],
-            E: ["L5", "L3", "L1", "L6", "L4", "L2", "L7"]
-        };
-
-        const TEAM_ROUTE = {
-            "01": "A", "02": "A", "03": "A", "04": "A", "05": "A", "06": "A",
-            "07": "B", "08": "B", "09": "B", "10": "B", "11": "B", "12": "B",
-            "13": "C", "14": "C", "15": "C", "16": "C", "17": "C", "18": "C",
-            "19": "D", "20": "D", "21": "D", "22": "D", "23": "D", "24": "D",
-            "25": "E", "26": "E", "27": "E", "28": "E", "29": "E", "30": "E"
-        };
+        // ✅ ONE ROUTE — same for all 30 teams
+        const ROUTE = ["L1", "L2", "L3", "L4", "L5", "L6", "L7"];
 
         const teamCodes = {
             "01": "TT2601", "02": "TT2602", "03": "TT2603", "04": "TT2604", "05": "TT2605", "06": "TT2606",
@@ -280,22 +83,16 @@
         };
 
         const locationHints = {
-            L1: "Find the place where hunger dies between lectures — every student runs here when the clock strikes break time! ",
-            L2: "Find the place where metal beasts stand in perfect silence, dreaming of roads not yet traveled. They wait in rows, loyal and still! ",
-            L3: "Find the place where fire and iron dance together, where raw hands shape raw metal into something the world has never seen! ",
-            L4: "Find the tiny kingdom that never sleeps and never says no — too small to be noticed, too important to be forgotten. It stands guard near where the girls live!",
-            L5: "Find the building that holds a thousand futures locked in files — it stands quietly between the sleeping metal beasts of those who teach you! ",
-            L6: "Find the ground that has heard every secret, every laugh and every dream of every student — hiding silently behind the hall of great words! )",
+            L1: "Find the place where hunger dies between lectures — every student runs here when the clock strikes break time! 🍽️",
+            L2: "Find the place where metal beasts stand in perfect silence, dreaming of roads not yet traveled. They wait in rows, loyal and still! 🚗",
+            L3: "Find the place where fire and iron dance together, where raw hands shape raw metal into something the world has never seen! 🔧",
+            L4: "Find the tiny kingdom that never sleeps and never says no — too small to be noticed, too important to be forgotten. It stands guard near where the girls live! 🏪",
+            L5: "Find the building that holds a thousand futures locked in files — it stands quietly between the sleeping metal beasts of those who teach you! 🏢",
+            L6: "Find the ground that has heard every secret, every laugh and every dream of every student — hiding silently behind the hall of great words! 🌿",
             L7: "🔥 FINAL LOCATION — Return to base and claim your treasure! 🏆"
         };
 
-        const startHints = {
-            A: "🟡 Route A — Your first location is where hunger dies between lectures. Every student runs here at break time! ",
-            B: "🔵 Route B — Your first location is where metal beasts stand in perfect silence, dreaming of roads not yet traveled! ",
-            C: "🟢 Route C — Your first location is where fire and iron dance together, where raw hands shape raw metal! ",
-            D: "🩷 Route D — Your first location is the tiny kingdom that never sleeps, standing guard near the girls! ",
-            E: "🟠 Route E — Your first location is the building holding a thousand futures in files, between the metal beasts of those who teach!"
-        };
+        const firstHint = "🟡 Your first location is where hunger dies between lectures. Every student runs here at break time! Head to the CANTEEN! 🍽️";
 
         // ── PAGE SETUP ──
         const loc = (new URLSearchParams(window.location.search).get("loc") || "start").toLowerCase();
@@ -306,24 +103,24 @@
 
         if (!curPuzz && !isStart) {
             document.getElementById("app").innerHTML = `
-    <h1>🏴‍☠️ Tech-Treasure Hunt 2K26 🏆</h1>
-    <div class="box">
-      <p class="error">❌ Invalid QR location: "<b>${loc}</b>"<br>Please scan a valid QR sticker.</p>
-    </div>`;
+            <h1>🏴‍☠️ Tech-Treasure Hunt 2K26 🏆</h1>
+            <div class="box">
+              <p class="error">❌ Invalid QR location: "<b>${loc}</b>"<br>Please scan a valid QR sticker.</p>
+            </div>`;
         } else {
             document.getElementById("app").innerHTML = `
-    <h1>🏴‍☠️ Tech-Treasure Hunt 2K26 🏆</h1>
-    <p class="subtitle">E&TC Department — DVVPCOE</p>
-    <div class="box">
-      <div class="location-badge">📍 ${locLabel}</div>
-      <p class="question-text">${curPuzz.question}</p>
-      <input id="team"   placeholder="Team Number (01–30)" type="text" inputmode="numeric" maxlength="2"/>
-      <input id="code"   placeholder="Secret Code (e.g. TT2605)" type="text"/>
-      <input id="answer" placeholder="Your Answer" type="text" autocomplete="off"/>
-      <br>
-      <button onclick="checkAnswer()">🔓 Unlock</button>
-      <div id="message"></div>
-    </div>`;
+            <h1>🏴‍☠️ Tech-Treasure Hunt 2K26 🏆</h1>
+            <p class="subtitle">E&TC Department — DVVPCOE</p>
+            <div class="box">
+              <div class="location-badge">📍 ${locLabel}</div>
+              <p class="question-text">${curPuzz.question}</p>
+              <input id="team"   placeholder="Team Number (01–30)" type="text" inputmode="numeric" maxlength="2"/>
+              <input id="code"   placeholder="Secret Code (e.g. TT2605)" type="text"/>
+              <input id="answer" placeholder="Your Answer" type="text" autocomplete="off"/>
+              <br>
+              <button onclick="checkAnswer()">🔓 Unlock</button>
+              <div id="message"></div>
+            </div>`;
             document.addEventListener("keydown", e => { if (e.key === "Enter") checkAnswer(); });
         }
 
@@ -336,73 +133,63 @@
             msg.innerHTML = "";
 
             if (isNaN(parseInt(teamRaw)) || parseInt(teamRaw) < 1 || parseInt(teamRaw) > 30) {
-                msg.innerHTML = "<div class='error'>❌ Team number must be between 1 and 30!</div>";
-                return;
+                msg.innerHTML = "<div class='error'>❌ Team number must be between 1 and 30!</div>"; return;
             }
             if (!teamCodes[team] || teamCodes[team] !== code) {
-                msg.innerHTML = "<div class='error'>❌ Wrong Team Number or Secret Code!</div>";
-                return;
+                msg.innerHTML = "<div class='error'>❌ Wrong Team Number or Secret Code!</div>"; return;
             }
 
-            const route = TEAM_ROUTE[team];
-            const myRoute = ROUTES[route];
             const saved = localStorage.getItem("hunt_" + team);
 
             // ── START QR ──
             if (isStart) {
                 if (ans !== startPuzzle.answer.toLowerCase()) {
-                    msg.innerHTML = "<div class='error'>❌ Wrong Answer! Think harder 🤔</div>";
-                    return;
+                    msg.innerHTML = "<div class='error'>❌ Wrong Answer! Think harder 🤔</div>"; return;
                 }
                 if (saved && saved !== "") {
                     msg.innerHTML = `<div class='success'>✔ Already started! Your next location:</div>
-        <div class='hint'><div class='hint-label'>🗺️ Go Here Next</div>${locationHints[saved]}</div>`;
+                    <div class='hint'><div class='hint-label'>🗺️ Go Here Next</div>${locationHints[saved]}</div>`;
                     return;
                 }
-                localStorage.setItem("hunt_" + team, myRoute[0]);
-                msg.innerHTML = `<div class='success'>✔ Correct! Hunt Begins! You are on Route ${route}.</div>
-      <div class='hint'><div class='hint-label'>🗺️ Your First Location</div>${startHints[route]}</div>`;
-                launchConfetti();
-                return;
+                localStorage.setItem("hunt_" + team, ROUTE[0]);
+                msg.innerHTML = `<div class='success'>✔ Correct! Hunt Begins!</div>
+                <div class='hint'><div class='hint-label'>🗺️ Your First Location</div>${firstHint}</div>`;
+                launchConfetti(); return;
             }
 
             // ── LOCATION QR ──
             if (!saved) {
-                msg.innerHTML = "<div class='error'>⚠️ You haven't started yet!<br>Scan the <b>Starting QR</b> first.</div>";
-                return;
+                msg.innerHTML = "<div class='error'>⚠️ You haven't started yet!<br>Scan the <b>Starting QR</b> first.</div>"; return;
             }
             if (saved === "completed") {
-                msg.innerHTML = "<div class='error'>🏆 Your team already completed the hunt!</div>";
-                return;
+                msg.innerHTML = "<div class='error'>🏆 Your team already completed the hunt!</div>"; return;
             }
             if (ans !== curPuzz.answer.toLowerCase()) {
-                msg.innerHTML = "<div class='error'>❌ Wrong Answer! Think harder 🤔</div>";
-                return;
+                msg.innerHTML = "<div class='error'>❌ Wrong Answer! Think harder 🤔</div>"; return;
             }
             if (saved !== locKey) {
                 msg.innerHTML = `<div class='error'>⚠️ Good answer but wrong location!<br>
-      You should be at: <b>${LOCATION_NAMES[saved]}</b></div>
-      <div class='hint'><div class='hint-label'>🗺️ Go Here</div>${locationHints[saved]}</div>`;
+                You should be at: <b>${LOCATION_NAMES[saved]}</b></div>
+                <div class='hint'><div class='hint-label'>🗺️ Go Here</div>${locationHints[saved]}</div>`;
                 return;
             }
 
-            // ✅ Correct answer + correct location!
-            const idx = myRoute.indexOf(locKey);
-            const isLast = (idx === myRoute.length - 1);
+            const idx = ROUTE.indexOf(locKey);
+            const isLast = (idx === ROUTE.length - 1);
 
             if (!isLast) {
-                const nextLoc = myRoute[idx + 1];
+                const nextLoc = ROUTE[idx + 1];
                 localStorage.setItem("hunt_" + team, nextLoc);
-                msg.innerHTML = `<div class='success'>✔ Level Cleared! (${idx + 1}/${myRoute.length - 1} done)</div>
-      <div class='hint'><div class='hint-label'>🗺️ Next Location Hint</div>${locationHints[nextLoc]}</div>`;
+                msg.innerHTML = `<div class='success'>✔ Level Cleared! (${idx + 1}/${ROUTE.length - 1} done)</div>
+                <div class='hint'><div class='hint-label'>🗺️ Next Location Hint</div>${locationHints[nextLoc]}</div>`;
                 launchConfetti();
             } else {
                 localStorage.setItem("hunt_" + team, "completed");
                 localStorage.setItem("hunt_" + team + "_finish", Date.now());
                 msg.innerHTML = `<span class='trophy'>🏆</span>
-      <div class='success' style='font-size:28px'>TREASURE UNLOCKED! Team ${team} Won!</div>
-      <div class='hint'><div class='hint-label'>🎉 You did it!</div>
-      Return to base and show this screen to claim your prize! 🎉</div>`;
+                <div class='success' style='font-size:28px'>TREASURE UNLOCKED! Team ${team} Won!</div>
+                <div class='hint'><div class='hint-label'>🎉 You did it!</div>
+                Return to base and show this screen to claim your prize! 🎉</div>`;
                 launchConfetti();
                 setTimeout(launchConfetti, 600);
                 setTimeout(launchConfetti, 1200);
@@ -411,11 +198,11 @@
 
         function launchConfetti() {
             const wrap = document.getElementById("cw");
-            const colors = ["#facc15", "#ff6b35", "#ff4e8c", "#4ecdc4", "#6bcb77", "#9b5de5"];
+            const colors = ["#facc15","#ff6b35","#ff4e8c","#4ecdc4","#6bcb77","#9b5de5"];
             for (let i = 0; i < 65; i++) {
                 const el = document.createElement("div");
                 el.className = "cp";
-                el.style.cssText = `left:${Math.random() * 100}%;background:${colors[i % colors.length]};width:${6 + Math.random() * 8}px;height:${6 + Math.random() * 8}px;animation-duration:${1.5 + Math.random() * 2}s;animation-delay:${Math.random() * .6}s;border-radius:${Math.random() > .5 ? '50%' : '3px'};`;
+                el.style.cssText = `left:${Math.random()*100}%;background:${colors[i%colors.length]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.6}s;border-radius:${Math.random()>.5?'50%':'3px'};`;
                 wrap.appendChild(el);
             }
             setTimeout(() => wrap.innerHTML = "", 4500);
@@ -427,38 +214,31 @@
             else if (pass !== null) alert("Wrong Password!");
         }
 
-        const routeColors = { A: "#facc15", B: "#38bdf8", C: "#4ade80", D: "#f472b6", E: "#fb923c" };
-
         function showAdminPanel() {
             let html = `<h1>🔐 Admin Panel</h1><p class="subtitle">Tech-Treasure Hunt 2K26</p>`;
             html += `<div class="admin-box" style="margin-bottom:16px;">
-    <p style="font-weight:bold;color:#facc15;">Route Map</p>
-    <p>🟡 <b>Route A</b> (01–06): Canteen→Parking→Workshop→Gen Store→Office→Lawn→<b>Kabristan</b></p>
-    <p>🔵 <b>Route B</b> (07–12): Parking→Gen Store→Lawn→Canteen→Workshop→Office→<b>Kabristan</b></p>
-    <p>🟢 <b>Route C</b> (13–18): Workshop→Canteen→Office→Parking→Lawn→Gen Store→<b>Kabristan</b></p>
-    <p>🩷 <b>Route D</b> (19–24): Gen Store→Lawn→Parking→Office→Canteen→Workshop→<b>Kabristan</b></p>
-    <p>🟠 <b>Route E</b> (25–30): Office→Workshop→Canteen→Lawn→Gen Store→Parking→<b>Kabristan</b></p>
-  </div>`;
+                <p style="font-weight:bold;color:#facc15;">📍 Route (All Teams)</p>
+                <p>Canteen → Parking → Workshop → General Store → Office → Lawn → <b>Kabristan 🏆</b></p>
+            </div>`;
             html += `<div class="admin-box">`;
             html += `<p style="font-weight:bold;color:#facc15;">Team Progress</p>`;
             let ranking = [], finished = 0, inProgress = 0, notStarted = 0;
             for (let i = 1; i <= 30; i++) {
                 const team = i.toString().padStart(2, "0");
-                const route = TEAM_ROUTE[team];
                 const progress = localStorage.getItem("hunt_" + team);
                 const finish = localStorage.getItem("hunt_" + team + "_finish");
                 const label = !progress ? "⏳ Not Started" : progress === "completed" ? "✅ Completed" : "📍 Next: " + (LOCATION_NAMES[progress] || progress);
                 if (!progress) notStarted++;
                 else if (progress === "completed") finished++;
                 else inProgress++;
-                const c = routeColors[route];
-                html += `<p>Team ${team} <span class="route-tag" style="background:${c}22;color:${c};border:1px solid ${c}55">Route ${route}</span> → <b>${label}</b></p>`;
-                if (finish) ranking.push({ team, route, time: parseInt(finish) });
+                html += `<p>Team ${team} → <b>${label}</b></p>`;
+                if (finish) ranking.push({ team, time: parseInt(finish) });
             }
             html += `<p style="margin-top:10px;font-size:13px;color:rgba(255,255,255,0.4);">
-    ✅ Finished: <b style="color:#22c55e">${finished}</b> &nbsp;|&nbsp;
-    🔄 In Progress: <b style="color:#facc15">${inProgress}</b> &nbsp;|&nbsp;
-    ⏳ Not Started: <b style="color:rgba(255,255,255,0.4)">${notStarted}</b></p>`;
+                ✅ Finished: <b style="color:#22c55e">${finished}</b> &nbsp;|&nbsp;
+                🔄 In Progress: <b style="color:#facc15">${inProgress}</b> &nbsp;|&nbsp;
+                ⏳ Not Started: <b style="color:rgba(255,255,255,0.4)">${notStarted}</b>
+            </p>`;
             ranking.sort((a, b) => a.time - b.time);
             html += `<p style="font-weight:bold;color:#facc15;margin-top:16px;">🏆 Rankings</p>`;
             if (ranking.length === 0) {
@@ -466,13 +246,12 @@
             } else {
                 ranking.forEach((r, i) => {
                     const t = new Date(r.time).toLocaleTimeString();
-                    const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
-                    const c = routeColors[r.route];
-                    html += `<p>${medal} Team ${r.team} <span class="route-tag" style="background:${c}22;color:${c};border:1px solid ${c}55">Route ${r.route}</span> — finished at <b>${t}</b></p>`;
+                    const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i+1}.`;
+                    html += `<p>${medal} Team ${r.team} — finished at <b>${t}</b></p>`;
                 });
             }
             html += `<br><button onclick="resetAll()">🔄 Reset All Teams</button>
-    <button onclick="location.reload()" style="background:#1e293b;color:white;margin-left:6px">← Back</button></div>`;
+            <button onclick="location.reload()" style="background:#1e293b;color:white;margin-left:6px">← Back</button></div>`;
             document.getElementById("app").innerHTML = html;
         }
 
@@ -489,5 +268,4 @@
 
     </script>
 </body>
-
 </html>
