@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech-Treasure 2K26</title>
+<style>
+body{
+  background:radial-gradient(circle at top,#0f172a,#000000);
+  color:white;
+  font-family:'Trebuchet MS',sans-serif;
+  text-align:center;
+  padding:30px;
+  min-height:100vh;
+}
+h1{
+  font-size:34px;
+  color:#facc15;
+  text-shadow:0 0 15px #facc15;
+  margin-bottom:6px;
+}
+.subtitle{
+  color:rgba(255,255,255,0.4);
+  font-size:13px;
+  margin-bottom:28px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.box{
+  background:rgba(255,255,255,0.05);
+  padding:30px;
+  border-radius:20px;
+  max-width:700px;
+  margin:auto;
+  box-shadow:0 0 40px rgba(255,215,0,0.15);
+}
+input{
+  padding:13px 16px;
+  margin:8px;
+  width:85%;
+  border-radius:10px;
+  border:2px solid rgba(255,255,255,0.1);
+  font-size:16px;
+  background:rgba(255,255,255,0.07);
+  color:white;
+  outline:none;
+  transition:border-color .2s;
+}
+input:focus{ border-color:#facc15; }
+input::placeholder{ color:rgba(255,255,255,0.35); }
+button{
+  padding:12px 28px;
+  border-radius:10px;
+  border:none;
+  background:#facc15;
+  color:#0f172a;
+  font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
+  margin:8px 4px;
+  transition:background .15s, transform .1s;
+}
+button:hover{ background:#fde047; transform:translateY(-1px); }
+button:active{ transform:scale(.97); }
+.success{ color:#22c55e; font-size:20px; font-weight:bold; margin-top:16px; }
+.error{
+  color:#ef4444;
+  font-weight:bold;
+  margin-top:14px;
+  background:rgba(239,68,68,0.1);
+  border:1px solid rgba(239,68,68,0.3);
+  border-radius:10px;
+  padding:10px 16px;
+  display:inline-block;
+}
+.hint{
+  font-size:17px;
+  margin-top:16px;
+  color:#38bdf8;
+  background:rgba(56,189,248,0.07);
+  border:1px solid rgba(56,189,248,0.2);
+  border-radius:14px;
+  padding:18px 22px;
+  line-height:1.8;
+  text-align:left;
+}
+.hint-label{
+  font-size:11px;
+  font-weight:bold;
+  color:#38bdf8;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  margin-bottom:8px;
+}
+.location-badge{
+  display:inline-block;
+  background:rgba(250,204,21,0.1);
+  border:1px solid rgba(250,204,21,0.3);
+  color:#facc15;
+  padding:6px 20px;
+  border-radius:99px;
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:20px;
+}
+.question-text{
+  font-size:20px;
+  line-height:1.75;
+  margin-bottom:22px;
+  color:#e2e8f0;
+  font-style:italic;
+}
+.trophy{
+  font-size:80px;
+  display:block;
+  margin:10px 0;
+  animation:float 2.5s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.admin-btn{
+  position:fixed;bottom:12px;right:12px;
+  opacity:0.15;font-size:22px;padding:6px 10px;
+  background:transparent;color:white;
+}
+.admin-btn:hover{ opacity:1; background:rgba(255,255,255,.08); }
+.admin-box{
+  background:#0f172a;padding:20px;border-radius:15px;
+  margin-top:20px;text-align:left;
+}
+.admin-box p{
+  padding:6px 4px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  font-size:14px;
+}
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden}
+.cp{position:absolute;top:-20px;animation:cf linear forwards}
+@keyframes cf{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+<div class="confetti-wrap" id="cw"></div>
+<button class="admin-btn" onclick="showAdminLogin()">⚙</button>
+
+<script>
+
+// ════════════════════════════════════════════════════
+//   EDIT ONLY THIS SECTION
+// ════════════════════════════════════════════════════
+
+const ADMIN_PASSWORD = "admin123";
+
+// ── ROUTE — all 30 teams follow this exact order ──
+// These must match the ?loc= value in your QR code URLs exactly
+const ROUTE = ["L1", "L2", "L3", "L4", "L5", "L6", "L7"];
+
+// ── LOCATION DISPLAY NAMES (shown on screen) ──
+const LOCATION_NAMES = {
+  start: "Starting Point",
+  L1: "Canteen",
+  L2: "Parking",
+  L3: "Workshop",
+  L4: "General Store",
+  L5: "Office",
+  L6: "Lawn",
+  L7: "Kabristan"
+};
+
+// ── TEAM CODES — 30 teams ──
+// Format: "01": "CODE"  — team enters this code to verify identity
+const teamCodes = {
+  "01":"TT2601","02":"TT2602","03":"TT2603","04":"TT2604","05":"TT2605",
+  "06":"TT2606","07":"TT2607","08":"TT2608","09":"TT2609","10":"TT2610",
+  "11":"TT2611","12":"TT2612","13":"TT2613","14":"TT2614","15":"TT2615",
+  "16":"TT2616","17":"TT2617","18":"TT2618","19":"TT2619","20":"TT2620",
+  "21":"TT2621","22":"TT2622","23":"TT2623","24":"TT2624","25":"TT2625",
+  "26":"TT2626","27":"TT2627","28":"TT2628","29":"TT2629","30":"TT2630"
+};
+
+// ── START PUZZLE — shown at WhatsApp / Start QR (?loc=start) ──
+const startPuzzle = {
+  question: "I am always in front of you but can never be seen. What am I?",
+  answer: "future"
+};
+
+// ── STARTING HINT — shown after solving start puzzle ──
+// Tells teams where to go FIRST (L1)
+const startHint = "Your hunt begins where hunger dies between lectures — the place every student runs to when the clock strikes break time!";
+
+// ── PUZZLES at each location ──
+const puzzles = {
+  L1: { question: "What has keys but no locks, space but no room, and you can enter but can't go inside?", answer: "keyboard" },
+  L2: { question: "What runs but never walks, has a mouth but never talks, has a head but never weeps?", answer: "river" },
+  L3: { question: "I am always ahead of you in a race but you can never see me or touch me. I scare some and excite others. What am I?", answer: "future" },
+  L4: { question: "I speak without a mouth and hear without ears. I have no body but come alive with wind. What am I?", answer: "echo" },
+  L5: { question: "I am the one thing you always throw away when you need me and always pick up when you don't. What am I?", answer: "anchor" },
+  L6: { question: "A man builds a house with 4 walls. Every wall faces south. A bear walks past. What color is the bear?", answer: "white" },
+  L7: { question: "What can you catch but never throw?", answer: "cold" }
+};
+
+// ── NEXT LOCATION HINTS ──
+// Shown AFTER solving a puzzle — points to the NEXT location
+const hints = {
+  L1: "Find the place where metal beasts stand in perfect silence, dreaming of roads they have not yet traveled. They wait in rows, loyal and still!",
+  L2: "Find the place where fire and iron dance together, where raw hands shape raw metal into something the world has never seen before!",
+  L3: "Find the tiny kingdom that never sleeps and never says no — too small to be noticed, too important to be forgotten. It stands guard near where the girls live!",
+  L4: "Find the building that holds a thousand futures locked in files and folders — it stands quietly between the sleeping metal beasts of those who teach you!",
+  L5: "Find the ground that has heard every secret, every laugh and every dream of every student who ever sat on it — hiding silently behind the hall of great words!",
+  L6: "Find the place that has no roof yet shelters hundreds, no kitchen yet feeds the soul, no name yet every student knows exactly where it is at noon!",
+  L7: "🔥 LAST ONE! Find the point named after the dream of every child who ever stared at the night sky and wondered what lies beyond the last star. The treasure is yours! 🏆"
+};
+
+// ════════════════════════════════════════════════════
+//   STOP EDITING — game logic below
+// ════════════════════════════════════════════════════
+
+const loc = (new URLSearchParams(window.location.search).get("loc") || "start").toLowerCase();
+const isStart = (loc === "start");
+const currentPuzzle = isStart ? startPuzzle : puzzles[loc.toUpperCase()];
+const locKey = loc.toUpperCase();
+const locationLabel = LOCATION_NAMES[loc] || LOCATION_NAMES[locKey] || loc.toUpperCase();
+
+// ── RENDER PAGE ──
+if (!currentPuzzle && !isStart) {
+  document.getElementById("app").innerHTML = `
+    <h1>🏴‍☠️ Tech-Treasure Hunt 2K26 🏆</h1>
+    <div class="box">
+      <p class="error">❌ Invalid QR location: "<b>${loc}</b>"<br>Please scan a valid QR sticker.</p>
+    </div>`;
+} else {
+  document.getElementById("app").innerHTML = `
+    <h1>🏴‍☠️ Tech-Treasure Hunt 2K26 🏆</h1>
+    <p class="subtitle">E&TC Department — DVVPCOE</p>
+    <div class="box">
+      <div class="location-badge">📍 ${locationLabel}</div>
+      <p class="question-text" id="puzzle-q">${currentPuzzle.question}</p>
+      <input id="team" placeholder="Team Number (01 – 30)" type="text" inputmode="numeric" maxlength="2"/>
+      <input id="code" placeholder="Secret Code (e.g. TT2605)" type="text"/>
+      <input id="answer" placeholder="Your Answer" type="text" autocomplete="off"/>
+      <br>
+      <button onclick="checkAnswer()">🔓 Unlock</button>
+      <div id="message"></div>
+    </div>`;
+
+  document.addEventListener("keydown", e => { if (e.key === "Enter") checkAnswer(); });
+}
+
+// ── CHECK ANSWER ──
+function checkAnswer() {
+  const teamRaw = document.getElementById("team").value.trim();
+  const team    = teamRaw.padStart(2, "0");
+  const code    = document.getElementById("code").value.trim().toUpperCase();
+  const ans     = document.getElementById("answer").value.toLowerCase().trim().replace(/\s+/g, " ");
+  const msg     = document.getElementById("message");
+  msg.innerHTML = "";
+
+  // Validate credentials
+  if (!teamCodes[team] || teamCodes[team] !== code) {
+    msg.innerHTML = "<div class='error'>❌ Wrong Team Number or Secret Code!</div>";
+    return;
+  }
+
+  const saved = localStorage.getItem("hunt_team_" + team);
+
+  if (isStart) {
+    if (saved && saved !== "") {
+      msg.innerHTML = `<div class='error'>⚠️ Team ${team} already started!<br>Your current location: <b>${LOCATION_NAMES[saved] || saved}</b> — go there and scan the QR.</div>`;
+      return;
+    }
+  } else {
+    if (!saved) {
+      msg.innerHTML = "<div class='error'>⚠️ You haven't started yet!<br>Scan the <b>Starting QR</b> first.</div>";
+      return;
+    }
+    if (saved === "completed") {
+      msg.innerHTML = "<div class='error'>🏆 Your team already completed the hunt!</div>";
+      return;
+    }
+    if (saved !== locKey) {
+      msg.innerHTML = `<div class='error'>⚠️ Wrong location!<br>Your current location should be: <b>${LOCATION_NAMES[saved] || saved}</b></div>`;
+      return;
+    }
+  }
+
+  // Check answer
+  if (ans !== currentPuzzle.answer.toLowerCase()) {
+    msg.innerHTML = "<div class='error'>❌ Wrong Answer! Think harder 🤔</div>";
+    return;
+  }
+
+  // ✅ Correct!
+  if (isStart) {
+    localStorage.setItem("hunt_team_" + team, ROUTE[0]);
+    msg.innerHTML = `<div class='success'>✔ Correct! Hunt Begins!</div>
+      <div class='hint'><div class='hint-label'>🗺️ Go to your first location</div>${startHint}</div>`;
+    launchConfetti();
+    return;
+  }
+
+  const index = ROUTE.indexOf(locKey);
+
+  if (index !== -1 && index < ROUTE.length - 1) {
+    const nextLoc = ROUTE[index + 1];
+    localStorage.setItem("hunt_team_" + team, nextLoc);
+    msg.innerHTML = `<div class='success'>✔ Level Cleared!</div>
+      <div class='hint'><div class='hint-label'>🗺️ Next Location Hint</div>${hints[locKey]}</div>`;
+    launchConfetti();
+  } else {
+    // Final location — WINNER!
+    localStorage.setItem("hunt_team_" + team, "completed");
+    localStorage.setItem("hunt_team_" + team + "_finish", Date.now());
+    msg.innerHTML = `<span class='trophy'>🏆</span>
+      <div class='success' style='font-size:28px'>TREASURE UNLOCKED! You Won!</div>
+      <div class='hint'><div class='hint-label'>🎉 Final Clue</div>${hints[locKey]}</div>`;
+    launchConfetti();
+    setTimeout(launchConfetti, 600);
+    setTimeout(launchConfetti, 1200);
+  }
+}
+
+// ── CONFETTI ──
+function launchConfetti() {
+  const wrap = document.getElementById("cw");
+  const colors = ["#facc15","#ff6b35","#ff4e8c","#4ecdc4","#6bcb77","#9b5de5"];
+  for (let i = 0; i < 65; i++) {
+    const el = document.createElement("div");
+    el.className = "cp";
+    el.style.cssText = `left:${Math.random()*100}%;background:${colors[i%colors.length]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.6}s;border-radius:${Math.random()>.5?'50%':'3px'};`;
+    wrap.appendChild(el);
+  }
+  setTimeout(() => wrap.innerHTML = "", 4500);
+}
+
+// ── ADMIN PANEL ──
+function showAdminLogin() {
+  const pass = prompt("Admin Password:");
+  if (pass === ADMIN_PASSWORD) showAdminPanel();
+  else if (pass !== null) alert("Wrong Password!");
+}
+
+function showAdminPanel() {
+  let html = `<h1>🔐 Admin Panel</h1><p class="subtitle">Tech-Treasure Hunt 2K26</p><div class="admin-box">`;
+  html += `<p style="font-weight:bold;color:#facc15;border-bottom:1px solid rgba(250,204,21,.3)!important">Team Progress</p>`;
+  let ranking = [];
+
+  for (let i = 1; i <= 30; i++) {
+    const team     = i.toString().padStart(2, "0");
+    const progress = localStorage.getItem("hunt_team_" + team);
+    const finish   = localStorage.getItem("hunt_team_" + team + "_finish");
+    const label    = !progress ? "Not Started"
+                   : progress === "completed" ? "✅ Completed"
+                   : "At: " + (LOCATION_NAMES[progress] || progress);
+    html += `<p>Team ${team} &nbsp;→&nbsp; <b>${label}</b></p>`;
+    if (finish) ranking.push({ team, time: parseInt(finish) });
+  }
+
+  ranking.sort((a, b) => a.time - b.time);
+  html += `<p style="font-weight:bold;color:#facc15;margin-top:16px;border-bottom:1px solid rgba(250,204,21,.3)!important">🏆 Rankings</p>`;
+  if (ranking.length === 0) {
+    html += "<p>No team finished yet.</p>";
+  } else {
+    ranking.forEach((r, i) => {
+      const t = new Date(r.time).toLocaleTimeString();
+      html += `<p>${i+1}. &nbsp; Team ${r.team} &nbsp;—&nbsp; finished at ${t}</p>`;
+    });
+  }
+
+  html += `<br>
+    <button onclick="resetAll()">🔄 Reset All Teams</button>
+    <button onclick="location.reload()" style="background:#1e293b;color:white;margin-left:6px">← Back</button>
+  </div>`;
+  document.getElementById("app").innerHTML = html;
+}
+
+function resetAll() {
+  if (!confirm("Reset ALL 30 teams? This cannot be undone!")) return;
+  for (let i = 1; i <= 30; i++) {
+    const team = i.toString().padStart(2, "0");
+    localStorage.removeItem("hunt_team_" + team);
+    localStorage.removeItem("hunt_team_" + team + "_finish");
+  }
+  alert("All teams reset!");
+  location.reload();
+}
+
+</script>
+</body>
+</html>
