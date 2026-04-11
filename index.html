@@ -1,182 +1,464 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tech-Treasure 2K26</title>
     <style>
-        body { background: radial-gradient(circle at top, #0f172a, #000000); color: white; font-family: 'Trebuchet MS', sans-serif; text-align: center; padding: 30px; min-height: 100vh; }
-        h1 { font-size: 34px; color: #facc15; text-shadow: 0 0 15px #facc15; margin-bottom: 6px; }
-        .subtitle { color: rgba(255,255,255,0.4); font-size: 13px; margin-bottom: 28px; letter-spacing:.08em; text-transform:uppercase; }
-        .box { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; max-width: 700px; margin: auto; box-shadow: 0 0 40px rgba(255,215,0,0.15); }
-        input { padding: 13px 16px; margin: 8px; width: 85%; border-radius: 10px; border: 2px solid rgba(255,255,255,0.1); font-size: 16px; background: rgba(255,255,255,0.07); color: white; outline: none; transition: border-color .2s; }
-        input:focus { border-color: #facc15; }
-        input::placeholder { color: rgba(255,255,255,0.35); }
-        input:disabled { opacity: 0.45; cursor: not-allowed; }
-        button { padding: 12px 28px; border-radius: 10px; border: none; background: #facc15; color: #0f172a; font-weight: bold; font-size: 16px; cursor: pointer; margin: 8px 4px; transition: background .15s, transform .1s; }
-        button:hover { background: #fde047; transform: translateY(-1px); }
-        button:active { transform: scale(.97); }
-        .success { color: #22c55e; font-size: 18px; font-weight: bold; margin-top: 16px; }
-        .error { color: #ef4444; font-weight: bold; margin-top: 14px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; padding: 12px 16px; display: inline-block; line-height: 1.6; }
-        .hint { font-size: 17px; margin-top: 16px; color: #38bdf8; background: rgba(56,189,248,0.07); border: 1px solid rgba(56,189,248,0.2); border-radius: 14px; padding: 18px 22px; line-height: 1.8; text-align: left; }
-        .hint-label { font-size: 11px; font-weight: bold; color: #38bdf8; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px; }
-        .location-badge { display: inline-block; background: rgba(250,204,21,0.1); border: 1px solid rgba(250,204,21,0.3); color: #facc15; padding: 6px 20px; border-radius: 99px; font-size: 12px; font-weight: bold; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 20px; }
-        .question-text { font-size: 20px; line-height: 1.75; margin-bottom: 22px; color: #e2e8f0; font-style: italic; }
-        .trophy { font-size: 80px; display: block; margin: 10px 0; animation: float 2.5s ease-in-out infinite; }
-        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-        .admin-btn { position: fixed; bottom: 12px; right: 12px; opacity: 0.15; font-size: 22px; padding: 6px 10px; background: transparent; color: white; border: none; cursor: pointer; border-radius: 8px; }
-        .admin-btn:hover { opacity: 1; background: rgba(255,255,255,.08); }
-        .confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 999; overflow: hidden; }
-        .cp { position: absolute; top: -20px; animation: cf linear forwards; }
-        @keyframes cf { to { transform: translateY(110vh) rotate(720deg); opacity: 0 } }
-        .step-label { font-size: 12px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 18px; }
-        .puzzle-box { display: none; margin-top: 10px; }
-        hr.div { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 22px 0; }
-        .code-preview { font-size: 12px; color: rgba(255,255,255,0.3); margin-top: -4px; margin-bottom: 6px; }
-        .code-preview b { color: #facc15; letter-spacing: .05em; }
+        body {
+            background: radial-gradient(circle at top, #0f172a, #000000);
+            color: white;
+            font-family: 'Trebuchet MS', sans-serif;
+            text-align: center;
+            padding: 30px;
+            min-height: 100vh;
+        }
 
-        /* Admin */
-        .admin-wrap { max-width: 780px; margin: auto; text-align: left; }
-        .admin-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
-        .stat-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
-        .stat-card { flex:1; min-width:100px; background:rgba(255,255,255,0.05); border-radius:12px; padding:14px 10px; text-align:center; }
-        .stat-num { font-size:28px; font-weight:bold; }
-        .stat-lbl { font-size:11px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:.06em; margin-top:2px; }
-        .team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:8px; margin-top:8px; }
-        .team-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
-        .team-card.done  { border-color:rgba(34,197,94,0.4);  background:rgba(34,197,94,0.05); }
-        .team-card.going { border-color:rgba(250,204,21,0.3); background:rgba(250,204,21,0.04); }
-        .team-name   { font-size:14px; font-weight:bold; color:#facc15; }
-        .team-status { font-size:12px; color:rgba(255,255,255,0.5); margin-top:2px; }
-        .reset-btn-sm { padding:5px 10px; font-size:11px; border-radius:6px; background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.3); cursor:pointer; white-space:nowrap; font-weight:bold; }
-        .reset-btn-sm:hover { background:rgba(239,68,68,0.3); }
-        .rank-box  { background:rgba(255,255,255,0.04); border-radius:12px; padding:16px; margin-top:4px; }
-        .rank-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06); font-size:14px; }
-        .section-title { font-size:13px; font-weight:bold; color:#facc15; text-transform:uppercase; letter-spacing:.08em; margin:16px 0 8px; }
-        .route-info { background:rgba(255,255,255,0.04); border-radius:10px; padding:10px 16px; margin-bottom:12px; font-size:13px; color:rgba(255,255,255,0.65); }
+        h1 {
+            font-size: 34px;
+            color: #facc15;
+            text-shadow: 0 0 15px #facc15;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 13px;
+            margin-bottom: 28px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 700px;
+            margin: auto;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.15);
+        }
+
+        input {
+            padding: 13px 16px;
+            margin: 8px;
+            width: 85%;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.07);
+            color: white;
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        input:focus {
+            border-color: #facc15;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        input:disabled {
+            opacity: 0.5;
+        }
+
+        button {
+            padding: 12px 28px;
+            border-radius: 10px;
+            border: none;
+            background: #facc15;
+            color: #0f172a;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 8px 4px;
+            transition: background .15s, transform .1s;
+        }
+
+        button:hover {
+            background: #fde047;
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: scale(.97);
+        }
+
+        .success {
+            color: #22c55e;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 16px;
+        }
+
+        .error {
+            color: #ef4444;
+            font-weight: bold;
+            margin-top: 14px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
+            padding: 10px 16px;
+            display: inline-block;
+        }
+
+        .hint {
+            font-size: 17px;
+            margin-top: 16px;
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.07);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 14px;
+            padding: 18px 22px;
+            line-height: 1.8;
+            text-align: left;
+        }
+
+        .hint-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #38bdf8;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            margin-bottom: 8px;
+        }
+
+        .location-badge {
+            display: inline-block;
+            background: rgba(250, 204, 21, 0.1);
+            border: 1px solid rgba(250, 204, 21, 0.3);
+            color: #facc15;
+            padding: 6px 20px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            line-height: 1.75;
+            margin-bottom: 22px;
+            color: #e2e8f0;
+            font-style: italic;
+        }
+
+        .trophy {
+            font-size: 80px;
+            display: block;
+            margin: 10px 0;
+            animation: float 2.5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-12px)
+            }
+        }
+
+        .admin-btn {
+            position: fixed;
+            bottom: 12px;
+            right: 12px;
+            opacity: 0.15;
+            font-size: 22px;
+            padding: 6px 10px;
+            background: transparent;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .admin-btn:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, .08);
+            border-radius: 8px;
+        }
+
+        .confetti-wrap {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .cp {
+            position: absolute;
+            top: -20px;
+            animation: cf linear forwards;
+        }
+
+        @keyframes cf {
+            to {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0
+            }
+        }
+
+        .step-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            margin-bottom: 18px;
+        }
+
+        .puzzle-box {
+            display: none;
+            margin-top: 10px;
+        }
+
+        hr.divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 22px 0;
+        }
+
+        /* Admin Panel */
+        .admin-wrap {
+            max-width: 780px;
+            margin: auto;
+            text-align: left;
+        }
+
+        .admin-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .stat-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .stat-card {
+            flex: 1;
+            min-width: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 14px 10px;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .stat-lbl {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            margin-top: 2px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .team-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .team-card.done {
+            border-color: rgba(34, 197, 94, 0.4);
+            background: rgba(34, 197, 94, 0.05);
+        }
+
+        .team-card.going {
+            border-color: rgba(250, 204, 21, 0.3);
+            background: rgba(250, 204, 21, 0.04);
+        }
+
+        .team-name {
+            font-size: 14px;
+            font-weight: bold;
+            color: #facc15;
+        }
+
+        .team-status {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 2px;
+        }
+
+        .reset-btn-sm {
+            padding: 5px 10px;
+            font-size: 11px;
+            border-radius: 6px;
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: bold;
+        }
+
+        .reset-btn-sm:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        .rank-box {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 4px;
+        }
+
+        .rank-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 14px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #facc15;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin: 16px 0 8px;
+        }
+
+        .route-info {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            padding: 10px 16px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.65);
+        }
     </style>
 </head>
+
 <body>
 
-<div id="app"></div>
-<div class="confetti-wrap" id="cw"></div>
-<button class="admin-btn" onclick="showAdminLogin()">⚙</button>
+    <div id="app"></div>
+    <div class="confetti-wrap" id="cw"></div>
+    <button class="admin-btn" onclick="showAdminLogin()">⚙</button>
 
-<script>
-    // ── GAME DATA ──
-    const ADMIN_PASSWORD = "admin123";
+    <script>
+        // ─────────────────────────────────────────────
+        //  GAME DATA
+        // ─────────────────────────────────────────────
+        const ADMIN_PASSWORD = "admin123";
 
-    const LOCATION_NAMES = {
-        start:"Starting Point",
-        L1:"Canteen", L2:"Parking", L3:"Workshop",
-        L4:"General Store", L5:"Office", L6:"Lawn", L7:"Kabristan"
-    };
+        const LOCATION_NAMES = {
+            start: "Starting Point",
+            L1: "Canteen", L2: "Parking", L3: "Workshop",
+            L4: "General Store", L5: "Office", L6: "Lawn", L7: "Kabristan"
+        };
 
-    const ROUTE = ["L1","L2","L3","L4","L5","L6","L7"];
+        const ROUTE = ["L1", "L2", "L3", "L4", "L5", "L6", "L7"];
 
-    // team number (string "01"–"30") → secret code
-    const TEAM_CODES = {
-        "01":"TT2601","02":"TT2602","03":"TT2603","04":"TT2604","05":"TT2605","06":"TT2606",
-        "07":"TT2607","08":"TT2608","09":"TT2609","10":"TT2610","11":"TT2611","12":"TT2612",
-        "13":"TT2613","14":"TT2614","15":"TT2615","16":"TT2616","17":"TT2617","18":"TT2618",
-        "19":"TT2619","20":"TT2620","21":"TT2621","22":"TT2622","23":"TT2623","24":"TT2624",
-        "25":"TT2625","26":"TT2626","27":"TT2627","28":"TT2628","29":"TT2629","30":"TT2630"
-    };
+        const TEAM_CODES = {
+            "01": "TT2601", "02": "TT2602", "03": "TT2603", "04": "TT2604", "05": "TT2605", "06": "TT2606",
+            "07": "TT2607", "08": "TT2608", "09": "TT2609", "10": "TT2610", "11": "TT2611", "12": "TT2612",
+            "13": "TT2613", "14": "TT2614", "15": "TT2615", "16": "TT2616", "17": "TT2617", "18": "TT2618",
+            "19": "TT2619", "20": "TT2620", "21": "TT2621", "22": "TT2622", "23": "TT2623", "24": "TT2624",
+            "25": "TT2625", "26": "TT2626", "27": "TT2627", "28": "TT2628", "29": "TT2629", "30": "TT2630"
+        };
 
-    const START_PUZZLE = {
-        question: "I am always in front of you but can never be seen. What am I?",
-        answer: "future"
-    };
+        const START_PUZZLE = {
+            question: "I am always in front of you but can never be seen. What am I?",
+            answer: "future"
+        };
 
-    const PUZZLES = {
-        L1:{ question:"What has keys but no locks, space but no room, and you can enter but can't go inside?",        answer:"keyboard" },
-        L2:{ question:"What runs but never walks, has a mouth but never talks, has a head but never weeps?",          answer:"river"    },
-        L3:{ question:"I am always ahead of you in a race but you can never see me or touch me. I scare some and excite others. What am I?", answer:"future" },
-        L4:{ question:"I speak without a mouth and hear without ears. I have no body but come alive with wind. What am I?", answer:"echo" },
-        L5:{ question:"I am the one thing you always throw away when you need me and always pick up when you don't. What am I?", answer:"anchor" },
-        L6:{ question:"A man builds a house with 4 walls. Every wall faces south. A bear walks past. What color is the bear?", answer:"white" },
-        L7:{ question:"What can you catch but never throw?",                                                          answer:"cold"     }
-    };
+        const PUZZLES = {
+            L1: { question: "What has keys but no locks, space but no room, and you can enter but can't go inside?", answer: "keyboard" },
+            L2: { question: "What runs but never walks, has a mouth but never talks, has a head but never weeps?", answer: "river" },
+            L3: { question: "I am always ahead of you in a race but you can never see me or touch me. I scare some and excite others. What am I?", answer: "future" },
+            L4: { question: "I speak without a mouth and hear without ears. I have no body but come alive with wind. What am I?", answer: "echo" },
+            L5: { question: "I am the one thing you always throw away when you need me and always pick up when you don't. What am I?", answer: "anchor" },
+            L6: { question: "A man builds a house with 4 walls. Every wall faces south. A bear walks past. What color is the bear?", answer: "white" },
+            L7: { question: "What can you catch but never throw?", answer: "cold" }
+        };
 
-    const HINTS = {
-        L1:"Find the place where hunger dies between lectures — every student runs here when the clock strikes break time! 🍽️",
-        L2:"Find the place where metal beasts stand in perfect silence, dreaming of roads not yet traveled. They wait in rows, loyal and still! 🚗",
-        L3:"Find the place where fire and iron dance together, where raw hands shape raw metal into something the world has never seen! 🔧",
-        L4:"Find the tiny kingdom that never sleeps and never says no — too small to be noticed, too important to be forgotten. It stands guard near where the girls live! 🏪",
-        L5:"Find the building that holds a thousand futures locked in files — it stands quietly between the sleeping metal beasts of those who teach you! 🏢",
-        L6:"Find the ground that has heard every secret, every laugh and every dream of every student — hiding silently behind the hall of great words! 🌿",
-        L7:"🔥 FINAL LOCATION — Return to base and claim your treasure! 🏆"
-    };
+        const HINTS = {
+            L1: "Find the place where hunger dies between lectures — every student runs here when the clock strikes break time! 🍽️",
+            L2: "Find the place where metal beasts stand in perfect silence, dreaming of roads not yet traveled. They wait in rows, loyal and still! 🚗",
+            L3: "Find the place where fire and iron dance together, where raw hands shape raw metal into something the world has never seen! 🔧",
+            L4: "Find the tiny kingdom that never sleeps and never says no — too small to be noticed, too important to be forgotten. It stands guard near where the girls live! 🏪",
+            L5: "Find the building that holds a thousand futures locked in files — it stands quietly between the sleeping metal beasts of those who teach you! 🏢",
+            L6: "Find the ground that has heard every secret, every laugh and every dream of every student — hiding silently behind the hall of great words! 🌿",
+            L7: "final location is kabristan, no hint needed! just go there and find the puzzle :)"
+        };
 
-    const FIRST_HINT = "🟡 Head to the place where hunger dies between lectures — every student runs here at break time! Go to the CANTEEN! 🍽️";
+        const FIRST_HINT = "🟡 Head to the place where hunger dies between lectures — every student runs here at break time! Go to the CANTEEN! 🍽️";
 
-    // ── STORAGE HELPERS ──
-    function getTeam(team)        { try { return JSON.parse(localStorage.getItem("tt26_"+team)) || null; } catch(e){ return null; } }
-    function saveTeam(team, data) { localStorage.setItem("tt26_"+team, JSON.stringify(data)); }
-    function clearTeam(team)      { localStorage.removeItem("tt26_"+team); }
-    function clearAll()           { for(let i=1;i<=30;i++) clearTeam(String(i).padStart(2,"0")); }
+        // ─────────────────────────────────────────────
+        //  LOCALSTORAGE HELPERS
+        // ─────────────────────────────────────────────
+        function getTeam(team) { try { return JSON.parse(localStorage.getItem("tt26_" + team)) || null; } catch (e) { return null; } }
+        function saveTeam(team, data) { localStorage.setItem("tt26_" + team, JSON.stringify(data)); }
+        function clearTeam(team) { localStorage.removeItem("tt26_" + team); }
+        function clearAll() { for (let i = 1; i <= 30; i++) clearTeam(i.toString().padStart(2, "0")); }
 
-    // ── NORMALIZE helpers — strip everything non-alphanumeric, uppercase ──
-    function normCode(s)  { return s.replace(/[^a-zA-Z0-9]/g,"").toUpperCase(); }
-    function normNum(s)   { return s.replace(/[^0-9]/g,""); }
+        // ─────────────────────────────────────────────
+        //  PAGE SETUP — read ?loc= from URL
+        // ─────────────────────────────────────────────
+        const loc = (new URLSearchParams(window.location.search).get("loc") || "start").toLowerCase();
+        const isStart = (loc === "start");
+        const locKey = loc.toUpperCase();   // e.g. "L1"
+        const locLabel = LOCATION_NAMES[loc] || LOCATION_NAMES[locKey] || locKey;
+        const curPuzz = isStart ? START_PUZZLE : PUZZLES[locKey];
 
-    // ── PAGE SETUP ──
-    const loc      = (new URLSearchParams(window.location.search).get("loc") || "start").toLowerCase();
-    const isStart  = (loc === "start");
-    const locKey   = loc.toUpperCase();
-    const locLabel = LOCATION_NAMES[loc] || LOCATION_NAMES[locKey] || locKey;
-    const curPuzz  = isStart ? START_PUZZLE : PUZZLES[locKey];
-
-    if (!curPuzz && !isStart) {
-        document.getElementById("app").innerHTML = `
+        if (!curPuzz && !isStart) {
+            document.getElementById("app").innerHTML = `
             <h1>🏴‍☠️ Tech-Treasure Hunt 2K26 🏆</h1>
-            <div class="box"><p class="error">❌ Invalid QR: "<b>${loc}</b>"<br>Please scan a valid QR sticker.</p></div>`;
-    } else {
-        renderPage();
-    }
+            <div class="box"><p class="error">❌ Invalid QR location: "<b>${loc}</b>"<br>Please scan a valid QR sticker.</p></div>`;
+        } else {
+            renderPage();
+        }
 
-    function renderPage() {
-        document.getElementById("app").innerHTML = `
+        function renderPage() {
+            document.getElementById("app").innerHTML = `
             <h1>🏴‍☠️ Tech-Treasure Hunt 2K26 🏆</h1>
             <p class="subtitle">E&TC Department — DVVPCOE</p>
             <div class="box">
                 <div class="location-badge">📍 ${locLabel}</div>
-
                 <p class="step-label">Step 1 — Enter your team details</p>
-
-                <input id="inp-team"
-                    placeholder="Team Number (1 to 30)"
-                    type="number"
-                    min="1" max="30"
-                    inputmode="numeric"
-                    autocomplete="off"
-                    style="width:85%"/>
-
-                <input id="inp-code"
-                    placeholder="Secret Code e.g. TT2605"
-                    type="text"
-                    autocomplete="off"
-                    autocorrect="off"
-                    autocapitalize="characters"
-                    spellcheck="false"
-                    style="width:85%; text-transform:uppercase; letter-spacing:0.05em"/>
-
-                <p class="code-preview" id="codeHint"></p>
+                <input id="inp-team" placeholder="Team Number (01–30)" type="text" inputmode="numeric" maxlength="2"/>
+                <input id="inp-code" placeholder="Secret Code (e.g. TT2605)" type="text"/>
                 <br>
                 <button onclick="verifyTeam()">✅ Verify Team</button>
 
                 <div class="puzzle-box" id="puzzleBox">
-                    <hr class="div">
+                    <hr class="divider">
                     <p class="step-label">Step 2 — Solve the puzzle</p>
                     <p class="question-text" id="questionText"></p>
-                    <input id="inp-answer"
-                        placeholder="Type your answer here"
-                        type="text"
-                        autocomplete="off"
-                        autocorrect="off"
-                        autocapitalize="off"
-                        spellcheck="false"
-                        style="width:85%"/>
+                    <input id="inp-answer" placeholder="Your Answer" type="text" autocomplete="off"/>
                     <br>
                     <button onclick="checkAnswer()">🔓 Unlock</button>
                 </div>
@@ -184,278 +466,260 @@
                 <div id="message"></div>
             </div>`;
 
-        // Live preview: show expected code as user types team number
-        document.getElementById("inp-team").addEventListener("input", function() {
-            const n   = parseInt(normNum(this.value), 10);
-            const tip = document.getElementById("codeHint");
-            if (n >= 1 && n <= 30) {
-                const key = String(n).padStart(2,"0");
-                tip.innerHTML = `Your secret code should be: <b>${TEAM_CODES[key]}</b>`;
-            } else {
-                tip.innerHTML = "";
+            document.addEventListener("keydown", e => {
+                if (e.key !== "Enter") return;
+                const pb = document.getElementById("puzzleBox");
+                if (pb && pb.style.display === "block") checkAnswer();
+                else verifyTeam();
+            });
+        }
+
+        // ─────────────────────────────────────────────
+        //  STEP 1 — Verify team number + secret code
+        // ─────────────────────────────────────────────
+        function verifyTeam() {
+            const raw = document.getElementById("inp-team").value.trim();
+            const team = raw.padStart(2, "0");
+            const code = document.getElementById("inp-code").value.trim().toUpperCase();
+            const msg = document.getElementById("message");
+            msg.innerHTML = "";
+
+            // Validate inputs
+            const num = parseInt(raw);
+            if (isNaN(num) || num < 1 || num > 30) {
+                msg.innerHTML = "<div class='error'>❌ Team number must be between 1 and 30!</div>"; return;
             }
-        });
+            if (!TEAM_CODES[team] || TEAM_CODES[team] !== code) {
+                msg.innerHTML = "<div class='error'>❌ Wrong Team Number or Secret Code!</div>"; return;
+            }
 
-        // Force uppercase live on code field
-        document.getElementById("inp-code").addEventListener("input", function() {
-            const pos = this.selectionStart;
-            this.value = this.value.toUpperCase();
-            this.setSelectionRange(pos, pos);
-        });
+            // Lock inputs after successful verify
+            document.getElementById("inp-team").disabled = true;
+            document.getElementById("inp-code").disabled = true;
 
-        document.addEventListener("keydown", e => {
-            if (e.key !== "Enter") return;
-            const pb = document.getElementById("puzzleBox");
-            if (pb && pb.style.display === "block") checkAnswer();
-            else verifyTeam();
-        });
-    }
+            // ── Read this team's saved progress ──
+            const data = getTeam(team);
+            const saved = data ? data.progress : null;
 
-    // ── STEP 1: Verify ──
-    function verifyTeam() {
-        const teamRaw = normNum(document.getElementById("inp-team").value);
-        const codeRaw = normCode(document.getElementById("inp-code").value);
-        const msg     = document.getElementById("message");
-        msg.innerHTML = "";
-
-        // Validate team number
-        const num = parseInt(teamRaw, 10);
-        if (!teamRaw || isNaN(num) || num < 1 || num > 30) {
-            msg.innerHTML = "<div class='error'>❌ Enter a team number between 1 and 30.</div>"; return;
-        }
-
-        const team         = String(num).padStart(2,"0");
-        const expectedCode = TEAM_CODES[team];  // e.g. "TT2605"
-
-        // Validate code — compare after stripping all spaces/dashes/dots
-        if (!codeRaw || codeRaw !== expectedCode) {
-            msg.innerHTML = `<div class='error'>❌ Wrong Secret Code for Team ${num}!<br>
-                <small style='opacity:0.7'>Your code should be <b>${expectedCode}</b> — check for typos.</small></div>`;
-            return;
-        }
-
-        // ✅ Verified — lock fields
-        document.getElementById("inp-team").disabled = true;
-        document.getElementById("inp-code").disabled = true;
-        document.getElementById("codeHint").innerHTML = "";
-
-        const data  = getTeam(team);
-        const saved = data ? data.progress : null;
-
-        // Already finished
-        if (saved === "completed") {
-            msg.innerHTML = `<span class='trophy'>🏆</span>
-                <div class='success' style='font-size:26px'>TREASURE UNLOCKED!<br>Team ${num} Won!</div>
+            // CASE 1: Already completed the whole hunt
+            if (saved === "completed") {
+                msg.innerHTML = `<span class='trophy'>🏆</span>
+                <div class='success' style='font-size:26px'>TREASURE UNLOCKED! Team ${team} Won!</div>
                 <div class='hint'><div class='hint-label'>🎉 Already Completed!</div>
                 Return to base and show this screen to claim your prize! 🎉</div>`;
-            launchConfetti(); return;
-        }
+                launchConfetti(); return;
+            }
 
-        // Never started
-        if (!saved) {
+            // CASE 2: Team never started — only allow on start QR
+            if (!saved) {
+                if (isStart) {
+                    showPuzzleBox();
+                    msg.innerHTML = "<div class='success' style='font-size:15px'>✔ Team verified! Solve the puzzle below 👇</div>";
+                } else {
+                    msg.innerHTML = "<div class='error'>⚠️ You haven't started yet!<br>Go scan the <b>Starting QR</b> first.</div>";
+                }
+                return;
+            }
+
+            // CASE 3: Team has started — check if they are at the RIGHT location QR
             if (isStart) {
+                // Rescanning start QR after already started → just show their current hint
+                msg.innerHTML = `<div class='success' style='font-size:15px'>✔ Already started! Your current hint:</div>
+                <div class='hint'><div class='hint-label'>🗺️ Go Here</div>${data.lasthint || FIRST_HINT}</div>`;
+                return;
+            }
+
+            if (saved === locKey) {
+                // ✅ Correct location QR → show puzzle
                 showPuzzleBox();
                 msg.innerHTML = "<div class='success' style='font-size:15px'>✔ Team verified! Solve the puzzle below 👇</div>";
             } else {
-                msg.innerHTML = "<div class='error'>⚠️ You haven't started yet!<br>Go scan the <b>Starting QR</b> first.</div>";
-            }
-            return;
-        }
-
-        // Rescanning start QR after starting
-        if (isStart) {
-            msg.innerHTML = `<div class='success' style='font-size:15px'>✔ Already started! Your current hint:</div>
-                <div class='hint'><div class='hint-label'>🗺️ Go Here</div>${data.lasthint || FIRST_HINT}</div>`;
-            return;
-        }
-
-        // Correct location QR
-        if (saved === locKey) {
-            showPuzzleBox();
-            msg.innerHTML = "<div class='success' style='font-size:15px'>✔ Team verified! Solve the puzzle below 👇</div>";
-        } else {
-            // Wrong location QR — show last hint
-            msg.innerHTML = `<div class='error'>❌ Wrong Location! You scanned the wrong QR.</div>
+                // ❌ Wrong location QR → show last hint, NO puzzle
+                msg.innerHTML = `<div class='error'>❌ Wrong Location! You scanned the wrong QR.</div>
                 <div class='hint'><div class='hint-label'>🗺️ Your Hint — Go Here Instead</div>${data.lasthint || FIRST_HINT}</div>`;
+            }
         }
-    }
 
-    function showPuzzleBox() {
-        const pb = document.getElementById("puzzleBox");
-        document.getElementById("questionText").textContent = curPuzz.question;
-        pb.style.display = "block";
-        setTimeout(() => document.getElementById("inp-answer").focus(), 100);
-    }
+        function showPuzzleBox() {
+            const pb = document.getElementById("puzzleBox");
+            const qt = document.getElementById("questionText");
+            qt.textContent = curPuzz.question;
+            pb.style.display = "block";
+        }
 
-    // ── STEP 2: Check answer ──
-    function checkAnswer() {
-        const num  = parseInt(normNum(document.getElementById("inp-team").value), 10);
-        const team = String(num).padStart(2,"0");
-        // normalize answer: lowercase, trim, collapse spaces
-        const ans  = document.getElementById("inp-answer").value
-                        .toLowerCase()
-                        .replace(/[^a-z0-9 ]/g,"")
-                        .trim()
-                        .replace(/\s+/g," ");
-        const msg  = document.getElementById("message");
+        // ─────────────────────────────────────────────
+        //  STEP 2 — Check puzzle answer
+        // ─────────────────────────────────────────────
+        function checkAnswer() {
+            const raw = document.getElementById("inp-team").value.trim();
+            const team = raw.padStart(2, "0");
+            const ans = document.getElementById("inp-answer").value.toLowerCase().trim().replace(/\s+/g, " ");
+            const msg = document.getElementById("message");
 
-        const data  = getTeam(team);
-        const saved = data ? data.progress : null;
+            const data = getTeam(team);
+            const saved = data ? data.progress : null;
 
-        // START QR
-        if (isStart) {
-            if (ans !== START_PUZZLE.answer) {
+            // ── START QR answer ──
+            if (isStart) {
+                if (ans !== START_PUZZLE.answer) {
+                    msg.innerHTML = "<div class='error'>❌ Wrong Answer! Think harder 🤔</div>"; return;
+                }
+                // Correct — save progress and show first hint
+                saveTeam(team, { progress: ROUTE[0], lasthint: FIRST_HINT, startTime: Date.now() });
+                msg.innerHTML = `<div class='success'>✔ Correct! Hunt Begins! 🎉</div>
+                <div class='hint'><div class='hint-label'>🗺️ Your First Location</div>${FIRST_HINT}</div>`;
+                document.getElementById("puzzleBox").style.display = "none";
+                launchConfetti(); return;
+            }
+
+            // ── LOCATION QR answer ──
+            if (!saved) {
+                msg.innerHTML = "<div class='error'>⚠️ You haven't started yet! Scan the Starting QR first.</div>"; return;
+            }
+            if (saved === "completed") {
+                msg.innerHTML = "<div class='error'>🏆 Your team already completed the hunt!</div>"; return;
+            }
+            if (saved !== locKey) {
+                msg.innerHTML = `<div class='error'>❌ Wrong Location! Go find the correct location using your hint.</div>`; return;
+            }
+            if (ans !== curPuzz.answer) {
                 msg.innerHTML = "<div class='error'>❌ Wrong Answer! Think harder 🤔</div>"; return;
             }
-            if (saved && saved !== "") {
-                const lh = data.lasthint || FIRST_HINT;
-                msg.innerHTML = `<div class='success' style='font-size:15px'>✔ Already started! Your current hint:</div>
-                    <div class='hint'><div class='hint-label'>🗺️ Go Here</div>${lh}</div>`;
-                document.getElementById("puzzleBox").style.display = "none";
-                return;
-            }
-            saveTeam(team, { progress: ROUTE[0], lasthint: FIRST_HINT, startTime: Date.now() });
-            msg.innerHTML = `<div class='success'>✔ Correct! Hunt Begins! 🎉</div>
-                <div class='hint'><div class='hint-label'>🗺️ Your First Location</div>${FIRST_HINT}</div>`;
-            document.getElementById("puzzleBox").style.display = "none";
-            launchConfetti(); return;
-        }
 
-        // LOCATION QR
-        if (!saved) {
-            msg.innerHTML = "<div class='error'>⚠️ Not started yet! Scan the Starting QR first.</div>"; return;
-        }
-        if (saved === "completed") {
-            msg.innerHTML = "<div class='error'>🏆 Your team already finished the hunt!</div>"; return;
-        }
-        if (saved !== locKey) {
-            msg.innerHTML = "<div class='error'>❌ Wrong Location! Use your hint to find the correct QR.</div>"; return;
-        }
-        if (ans !== curPuzz.answer) {
-            msg.innerHTML = "<div class='error'>❌ Wrong Answer! Think harder 🤔</div>"; return;
-        }
+            // ✅ Correct answer at correct location!
+            const idx = ROUTE.indexOf(locKey);
+            const isLast = idx === ROUTE.length - 1;
 
-        // ✅ Correct!
-        const idx    = ROUTE.indexOf(locKey);
-        const isLast = idx === ROUTE.length - 1;
-
-        if (!isLast) {
-            const nextLoc = ROUTE[idx + 1];
-            saveTeam(team, { progress: nextLoc, lasthint: HINTS[nextLoc] });
-            msg.innerHTML = `<div class='success'>✔ Level ${idx+1} Cleared! (${idx+1}/${ROUTE.length-1} done)</div>
+            if (!isLast) {
+                const nextLoc = ROUTE[idx + 1];
+                saveTeam(team, { progress: nextLoc, lasthint: HINTS[nextLoc] });
+                msg.innerHTML = `<div class='success'>✔ Level ${idx + 1} Cleared! (${idx + 1}/${ROUTE.length - 1} done)</div>
                 <div class='hint'><div class='hint-label'>🗺️ Next Location Hint</div>${HINTS[nextLoc]}</div>`;
-            document.getElementById("puzzleBox").style.display = "none";
-            launchConfetti();
-        } else {
-            saveTeam(team, { progress:"completed", lasthint:"", finishTime: Date.now() });
-            msg.innerHTML = `<span class='trophy'>🏆</span>
-                <div class='success' style='font-size:28px'>TREASURE UNLOCKED!<br>Team ${num} Won! 🎉</div>
+                document.getElementById("puzzleBox").style.display = "none";
+                launchConfetti();
+            } else {
+                saveTeam(team, { progress: "completed", lasthint: "", finishTime: Date.now() });
+                msg.innerHTML = `<span class='trophy'>🏆</span>
+                <div class='success' style='font-size:28px'>TREASURE UNLOCKED!<br>Team ${team} Won! 🎉</div>
                 <div class='hint'><div class='hint-label'>🎉 You did it!</div>
                 Return to base and show this screen to claim your prize!</div>`;
-            document.getElementById("puzzleBox").style.display = "none";
-            launchConfetti();
-            setTimeout(launchConfetti, 600);
-            setTimeout(launchConfetti, 1200);
-        }
-    }
-
-    // ── CONFETTI ──
-    function launchConfetti() {
-        const wrap   = document.getElementById("cw");
-        const colors = ["#facc15","#ff6b35","#ff4e8c","#4ecdc4","#6bcb77","#9b5de5"];
-        for (let i = 0; i < 70; i++) {
-            const el = document.createElement("div");
-            el.className = "cp";
-            el.style.cssText = `left:${Math.random()*100}%;background:${colors[i%colors.length]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.6}s;border-radius:${Math.random()>.5?'50%':'3px'};`;
-            wrap.appendChild(el);
-        }
-        setTimeout(() => wrap.innerHTML = "", 4500);
-    }
-
-    // ── ADMIN ──
-    function showAdminLogin() {
-        const pass = prompt("Admin Password:");
-        if (pass === ADMIN_PASSWORD) showAdminPanel();
-        else if (pass !== null) alert("❌ Wrong Password!");
-    }
-
-    function showAdminPanel() {
-        let finished=0, inProgress=0, notStarted=0, ranking=[], gridHtml="";
-
-        for (let i=1; i<=30; i++) {
-            const team = String(i).padStart(2,"0");
-            const d    = getTeam(team);
-            const prog = d ? d.progress : null;
-            let statusText, cardClass="";
-
-            if (!prog) {
-                statusText="⏳ Not started"; notStarted++;
-            } else if (prog==="completed") {
-                statusText="✅ Completed"; cardClass="done"; finished++;
-                if (d.finishTime) ranking.push({team, time:d.finishTime});
-            } else {
-                statusText="📍 Next: "+(LOCATION_NAMES[prog]||prog);
-                cardClass="going"; inProgress++;
+                document.getElementById("puzzleBox").style.display = "none";
+                launchConfetti();
+                setTimeout(launchConfetti, 600);
+                setTimeout(launchConfetti, 1200);
             }
+        }
 
-            gridHtml += `
+        // ─────────────────────────────────────────────
+        //  CONFETTI
+        // ─────────────────────────────────────────────
+        function launchConfetti() {
+            const wrap = document.getElementById("cw");
+            const colors = ["#facc15", "#ff6b35", "#ff4e8c", "#4ecdc4", "#6bcb77", "#9b5de5"];
+            for (let i = 0; i < 70; i++) {
+                const el = document.createElement("div");
+                el.className = "cp";
+                el.style.cssText = `left:${Math.random() * 100}%;background:${colors[i % colors.length]};width:${6 + Math.random() * 8}px;height:${6 + Math.random() * 8}px;animation-duration:${1.5 + Math.random() * 2}s;animation-delay:${Math.random() * .6}s;border-radius:${Math.random() > .5 ? '50%' : '3px'};`;
+                wrap.appendChild(el);
+            }
+            setTimeout(() => wrap.innerHTML = "", 4500);
+        }
+
+        // ─────────────────────────────────────────────
+        //  ADMIN PANEL
+        // ─────────────────────────────────────────────
+        function showAdminLogin() {
+            const pass = prompt("Admin Password:");
+            if (pass === ADMIN_PASSWORD) showAdminPanel();
+            else if (pass !== null) alert("❌ Wrong Password!");
+        }
+
+        function showAdminPanel() {
+            let finished = 0, inProgress = 0, notStarted = 0;
+            let ranking = [], gridHtml = "";
+
+            for (let i = 1; i <= 30; i++) {
+                const team = i.toString().padStart(2, "0");
+                const d = getTeam(team);
+                const prog = d ? d.progress : null;
+                let statusText, cardClass = "";
+
+                if (!prog) {
+                    statusText = "⏳ Not started"; notStarted++;
+                } else if (prog === "completed") {
+                    statusText = "✅ Completed"; cardClass = "done"; finished++;
+                    if (d.finishTime) ranking.push({ team, time: d.finishTime });
+                } else {
+                    statusText = "📍 Next: " + (LOCATION_NAMES[prog] || prog);
+                    cardClass = "going"; inProgress++;
+                }
+
+                gridHtml += `
                 <div class="team-card ${cardClass}">
                     <div>
-                        <div class="team-name">Team ${team} <span style="color:rgba(255,255,255,0.3);font-size:11px;font-weight:normal">${TEAM_CODES[team]}</span></div>
+                        <div class="team-name">Team ${team}</div>
                         <div class="team-status">${statusText}</div>
                     </div>
                     <button class="reset-btn-sm" onclick="resetOne('${team}')">Reset</button>
                 </div>`;
-        }
+            }
 
-        ranking.sort((a,b)=>a.time-b.time);
-        const rankHtml = ranking.length===0
-            ? "<p style='color:rgba(255,255,255,0.3);font-size:13px;margin:0'>No team finished yet.</p>"
-            : ranking.map((r,i)=>{
-                const medal = i===0?"🥇":i===1?"🥈":i===2?"🥉":`${i+1}.`;
-                return `<div class="rank-item">${medal} <b>Team ${r.team}</b> — ${new Date(r.time).toLocaleTimeString()}</div>`;
-              }).join("");
+            ranking.sort((a, b) => a.time - b.time);
+            const rankHtml = ranking.length === 0
+                ? "<p style='color:rgba(255,255,255,0.3);font-size:13px;margin:0'>No team finished yet.</p>"
+                : ranking.map((r, i) => {
+                    const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
+                    const t = new Date(r.time).toLocaleTimeString();
+                    return `<div class="rank-item">${medal} <b>Team ${r.team}</b> — finished at ${t}</div>`;
+                }).join("");
 
-        document.getElementById("app").innerHTML = `
+            document.getElementById("app").innerHTML = `
             <div class="admin-wrap">
                 <div class="admin-header">
-                    <h1 style="font-size:24px;margin:0">🔐 Admin Panel</h1>
+                    <h1 style="font-size:24px;margin:0;text-align:left">🔐 Admin Panel</h1>
                     <div style="display:flex;gap:8px;flex-wrap:wrap">
                         <button onclick="resetAll()" style="background:#ef4444;font-size:13px;padding:8px 16px">🔄 Reset All</button>
                         <button onclick="location.reload()" style="background:#1e293b;color:white;font-size:13px;padding:8px 16px">← Back</button>
                     </div>
                 </div>
-                <div class="route-info">📍 <b style="color:#facc15">Route:</b> Start → Canteen → Parking → Workshop → Gen Store → Office → Lawn → <b style="color:#facc15">Kabristan 🏆</b></div>
+
+                <div class="route-info">
+                    📍 <b style="color:#facc15">Route:</b> Start → Canteen → Parking → Workshop → Gen Store → Office → Lawn → <b style="color:#facc15">Kabristan 🏆</b>
+                </div>
+
                 <div class="stat-row">
                     <div class="stat-card"><div class="stat-num" style="color:#22c55e">${finished}</div><div class="stat-lbl">Finished</div></div>
                     <div class="stat-card"><div class="stat-num" style="color:#facc15">${inProgress}</div><div class="stat-lbl">In Progress</div></div>
                     <div class="stat-card"><div class="stat-num" style="color:rgba(255,255,255,0.3)">${notStarted}</div><div class="stat-lbl">Not Started</div></div>
                 </div>
+
                 <div class="section-title">🏆 Rankings</div>
                 <div class="rank-box">${rankHtml}</div>
+
                 <div class="section-title" style="margin-top:20px">👥 All Teams</div>
                 <div class="team-grid">${gridHtml}</div>
             </div>`;
-    }
+        }
 
-    function resetOne(team) {
-        if (!confirm(`Reset Team ${team}? This cannot be undone!`)) return;
-        clearTeam(team);
-        showAdminPanel();
-    }
+        function resetOne(team) {
+            if (!confirm(`Reset Team ${team}? This cannot be undone!`)) return;
+            clearTeam(team);
+            showAdminPanel();
+        }
 
-    function resetAll() {
-        if (!confirm("Reset ALL 30 teams? This cannot be undone!")) return;
-        clearAll();
-        alert("✅ All teams reset!");
-        showAdminPanel();
-    }
+        function resetAll() {
+            if (!confirm("Reset ALL 30 teams? This cannot be undone!")) return;
+            clearAll();
+            alert("✅ All teams reset!");
+            showAdminPanel();
+        }
 
-    window.verifyTeam     = verifyTeam;
-    window.checkAnswer    = checkAnswer;
-    window.showAdminLogin = showAdminLogin;
-    window.resetOne       = resetOne;
-    window.resetAll       = resetAll;
-</script>
+        window.verifyTeam = verifyTeam;
+        window.checkAnswer = checkAnswer;
+        window.showAdminLogin = showAdminLogin;
+        window.resetOne = resetOne;
+        window.resetAll = resetAll;
+    </script>
 </body>
+
 </html>
